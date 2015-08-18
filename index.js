@@ -12,7 +12,8 @@ var todos = new TodosStore();
 
 var rootHandler = function (request, reply) {
   reply({
-    version: pkg.version
+    version: pkg.version,
+    title: pkg.title
   });
 };
 

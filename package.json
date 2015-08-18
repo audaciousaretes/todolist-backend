@@ -1,9 +1,11 @@
 {
   "name": "@chaseadamsio/todo-backend",
+  "title": "Todo Backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "./node_modules/.bin/lab ./test/server/index.js --coverage"
   },
   "author": "Chase Adams <chaseadamsio.bcn@gmail.com> (http://chaseadams.io)",
