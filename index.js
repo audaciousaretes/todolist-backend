@@ -2,7 +2,7 @@ var Hapi = require("hapi");
 var pkg = require("./package.json");
 
 var server = new Hapi.Server();
-server.connection({ port: 8080 });
+server.connection({ port: 8080, routes: { cors: true } });
 
 var TodosStore = function () {
   return {};
