@@ -1,0 +1,19 @@
+{
+  "name": "@chaseadamsio/todo-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/lab ./test/server/index.js --coverage"
+  },
+  "author": "Chase Adams <chaseadamsio.bcn@gmail.com> (http://chaseadams.io)",
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^5.8.21",
+    "hapi": "^9.0.2"
+  },
+  "devDependencies": {
+    "code": "^1.5.0",
+    "lab": "^5.15.1"
+  }
+}
