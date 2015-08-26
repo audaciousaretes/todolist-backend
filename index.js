@@ -14,7 +14,9 @@ var todos = new TodosStore();
 var rootHandler = function (request, reply) {
   reply({
     version: pkg.version,
-    title: pkg.title
+    title: pkg.title,
+    name: request.query.name ? request.query.name : "no name provided.",
+    favorite_food: request.query.favorite_food ? request.query.favorite_food: "no favorite food provided."
   });
 };
 
