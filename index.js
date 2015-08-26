@@ -107,7 +107,7 @@ var editTodoHandler = function (request, reply) {
 
   var todo = foundTodo[0];
 
-  todo.description = request.payload.description;
+  todo.description = request.payload.description request.payload.description : todo.description;
   todo.status = request.payload.status ? request.payload.status : todo.status;
 
   reply(todo);
