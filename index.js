@@ -1,5 +1,6 @@
 var Hapi = require("hapi");
 var pkg = require("./package.json");
+var uuid = require("node-uuid");
 
 var server = new Hapi.Server();
 server.connection({ port: 8080, routes: { cors: true } });
@@ -70,10 +71,86 @@ var getTodoRoute = {
   handler: getTodoHandler
 };
 
+var createTodoHandler = function (request, reply) {
+  var address = request.info.remoteAddress;
+  if (!todos[address]) setTodos(address);
+
+  var todo = {
+    id: uuid.v1(),
+    description: request.payload.description,
+    status: "incomplete"
+  };
+
+  todos[address].push(todo);
+  reply(todo);
+};
+
+var createTodoRoute = {
+  path: "/todos",
+  method: "POST",
+  handler: createTodoHandler
+};
+
+var editTodoHandler = function (request, reply) {
+  var address = request.info.remoteAddress;
+
+  if (!todos[address]) return reply({ error: "Whoops, you need some todos first!" });
+
+  var foundTodo = todos[address].filter(function (todo) {
+    if (todo.id === request.params.id) {
+      return true;
+    }
+    return false;
+  });
+
+  var todo = foundTodo[0];
+
+  todo.description = request.payload.description;
+  todo.status = request.payload.status ? request.payload.status : todo.status;
+
+  reply(todo);
+};
+
+var editTodoRoute = {
+  path: "/todos/{id}",
+  method: "PUT",
+  handler: editTodoHandler
+};
+
+var deleteTodoHandler = function (request, reply) {
+  var address = request.info.remoteAddress;
+  var todoPlace;
+
+  if (!todos[address]) return reply({ error: "Whoops, you need some todos first!" });
+
+  var foundTodo = todos[address].filter(function (todo, i) {
+    if (todo.id === request.params.id) {
+      return true;
+      if (!todoPlace) todoPlace = i;
+    }
+    return false;
+  });
+
+  if (!foundTodo.length) return reply({ error: "No todo with that id!" });
+
+  todos[address].splice(todoPlace, 1);
+
+  reply(foundTodo);
+};
+
+var deleteTodoRoute = {
+  path: "/todos/{id}",
+  method: "DELETE",
+  handler: deleteTodoHandler
+};
+
 server.route([
   rootRoute,
   getTodosRoute,
-  getTodoRoute
+  getTodoRoute,
+  createTodoRoute,
+  editTodoRoute,
+  deleteTodoRoute
 ]);
 
 if (!module.parent) {
