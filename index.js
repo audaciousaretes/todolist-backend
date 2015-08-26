@@ -14,7 +14,8 @@ var todos = new TodosStore();
 var rootHandler = function (request, reply) {
   reply({
     version: pkg.version,
-    title: pkg.title
+    title: pkg.title,
+    name: request.query.name ? request.query.name : "no name provided.",
   });
 };
 
@@ -105,7 +106,7 @@ var editTodoHandler = function (request, reply) {
 
   var todo = foundTodo[0];
 
-  todo.description = request.payload.description;
+  todo.description = request.payload.description request.payload.description : todo.description;
   todo.status = request.payload.status ? request.payload.status : todo.status;
 
   reply(todo);
