@@ -15,7 +15,6 @@ var rootHandler = function (request, reply) {
   reply({
     version: pkg.version,
     title: pkg.title,
-    name: request.query.name ? request.query.name : "no name provided.",
   });
 };
 
